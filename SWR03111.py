@@ -77,7 +77,7 @@ project_number = st.text_input("Enter Project Number", value="INO-")
 prepared_by = st.text_input("Prepared By")
 
 # System type and finish
-system_type = st.selectbox("Select System Type", ["SWR-IG", "SWR-VIG", "SWR", "TB-SWR-VIG", "Custom"])
+system_type = st.selectbox("Select System Type", ["SWR-IG", "SWR-VIG", "SWR", "TB-SWR", "TB-SWR-VIG", "Custom"])
 finish = st.selectbox("Select Finish", ["Mil Finish", "Clear Anodized", "Black Anodized", "Painted", "Light Bronze", "Medium Bronze", "Dark Bronze", "Champagne Anodized", "Gold Anodized", "Dark Gold Anodized"])
 
 # Determine Glass Offset and profile number
@@ -102,6 +102,9 @@ elif system_type == 'SWR':
     else:
         profile_number = '03111'
         glass_offset = 11.11
+elif system_type == 'TB-SWR':
+    glass_offset = 16.337453
+    profile_number = '04001'
 elif system_type == 'TB-SWR-VIG':
     glass_offset = 16.337
     profile_number = '04001'
