@@ -229,8 +229,16 @@ if uploaded_file:
         return f"{w} {f}/16" if f else f"{w}"
 
     # --- Glass File Export ---
+    # Carry the glass type (GL-1, GL-2, ...) from the input CSV into the
+    # Glass file, so the PO Generator can give each glass type its own
+    # PO description. Column name match is forgiving (case / spaces).
+    _gt_col = next((c for c in df.columns if str(c).strip().lower() == 'glass type'), None)
+    glass_types = (df[_gt_col].fillna('').astype(str).str.strip().values
+                   if _gt_col else [''] * len(df))
+
     glass_df = pd.DataFrame({
         'Tag': df['Tag'].values,
+        'Glass Type': glass_types,
         'Glass Width in': df['Glass Width in'].values,
         'Glass Width (1/16)': df['Glass Width in'].apply(to_sixteenth).values,
         'Glass Height in': df['Glass Height in'].values,
@@ -243,6 +251,7 @@ if uploaded_file:
     # Add totals row - FIX: only include numeric columns to avoid FutureWarning
     totals_data = {
         'Tag': 'Totals',
+        'Glass Type': '',
         'Glass Width in': '',
         'Glass Width (1/16)': '',
         'Glass Height in': '',
